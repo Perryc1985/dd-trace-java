@@ -325,12 +325,13 @@ public class CoreTracer implements AgentTracer.TracerAPI {
       sampler(Sampler.Builder.<DDSpan>forConfig(config));
       instrumentationGateway(new InstrumentationGateway());
       injector(HttpCodec.createInjector(config));
-      extractor(HttpCodec.createExtractor(config, config.getHeaderTags()));
+      // TODO, there needs to be a response extractor as well
+      extractor(HttpCodec.createExtractor(config, config.getRequestHeaderTags()));
       // Explicitly skip setting scope manager because it depends on statsDClient
       localRootSpanTags(config.getLocalRootSpanTags());
       defaultSpanTags(config.getMergedSpanTags());
       serviceNameMappings(config.getServiceMapping());
-      taggedHeaders(config.getHeaderTags());
+      taggedHeaders(config.getRequestHeaderTags());
       partialFlushMinSpans(config.getPartialFlushMinSpans());
       strictTraceWrites(config.isTraceStrictWritesEnabled());
 
